@@ -1,13 +1,13 @@
-package graphdfs
+package graphbfs
 
 import (
-	"coding-practice/pkg/data-structures/graph"
+	"coding-practice/data-structures/graph"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDFSWithEmptyGraph(t *testing.T) {
+func TestBFSWithEmptyGraph(t *testing.T) {
 	g := graph.NewUndirected()
 
 	iterator, err := NewIterator(g)
@@ -20,7 +20,7 @@ func TestDFSWithEmptyGraph(t *testing.T) {
 	assert.Nil(t, res)
 }
 
-func TestDFSWithRootNode(t *testing.T) {
+func TestBFSWithRootNode(t *testing.T) {
 
 	// Input:
 	// 		A
@@ -42,7 +42,7 @@ func TestDFSWithRootNode(t *testing.T) {
 	assert.Equal(t, []*graph.Node{nodeA}, res)
 }
 
-func TestSimpleDFS(t *testing.T) {
+func TestSimpleBFS(t *testing.T) {
 
 	// Input:
 	// 		A
@@ -53,7 +53,7 @@ func TestSimpleDFS(t *testing.T) {
 	//     /
 	//    E
 
-	// Output: A -> B -> C -> D -> E -> F
+	// Output: A -> B -> C -> D -> F -> E
 	g := graph.NewUndirected()
 
 	// Add nodes
@@ -96,5 +96,5 @@ func TestSimpleDFS(t *testing.T) {
 	res, err := iterator.Iterate(nodeA)
 	assert.Nil(t, err)
 	assert.Len(t, res, 6)
-	assert.Equal(t, []*graph.Node{nodeA, nodeB, nodeC, nodeD, nodeE, nodeF}, res)
+	assert.Equal(t, []*graph.Node{nodeA, nodeB, nodeC, nodeD, nodeF, nodeE}, res)
 }

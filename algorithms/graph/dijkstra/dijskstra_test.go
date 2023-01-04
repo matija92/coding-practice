@@ -1,7 +1,7 @@
-package djikstra
+package dijkstra
 
 import (
-	"coding-practice/pkg/data-structures/graph"
+	"coding-practice/data-structures/graph"
 	"fmt"
 	"math"
 	"testing"

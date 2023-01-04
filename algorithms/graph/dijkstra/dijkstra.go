@@ -1,8 +1,8 @@
-package djikstra
+package dijkstra
 
 import (
-	"coding-practice/pkg/data-structures/graph"
-	"coding-practice/pkg/data-structures/heap"
+	"coding-practice/data-structures/graph"
+	"coding-practice/data-structures/heap"
 	"errors"
 )
 

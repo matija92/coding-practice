@@ -1,7 +1,7 @@
 package graphdfs
 
 import (
-	"coding-practice/pkg/data-structures/graph"
+	"coding-practice/data-structures/graph"
 	"errors"
 )
 
