@@ -6,6 +6,10 @@ import (
 	"strings"
 )
 
+type Element interface {
+	Value() int
+}
+
 type heapError string
 
 func (e heapError) Error() string {
@@ -28,20 +32,20 @@ const (
 // By default Heap is in MinHeap mode
 type Heap struct {
 	mode heapMode
-	arr  []int
+	arr  []Element
 }
 
 // Constructor for empty Heap, providing Heap mode
 func New(mode heapMode) *Heap {
 	return &Heap{
 		mode: mode,
-		arr:  make([]int, 0),
+		arr:  make([]Element, 0),
 	}
 }
 
 // Constructor for new Heap, using unsorted array and providing Heap mode
 // The array provided is owned by the underlying heap object after calling this constructor
-func NewFromArray(arr []int, mode heapMode) *Heap {
+func NewFromArray(arr []Element, mode heapMode) *Heap {
 	heap := &Heap{
 		mode: mode,
 		arr:  arr,
@@ -62,15 +66,15 @@ func NewFromArray(arr []int, mode heapMode) *Heap {
 }
 
 // Push element on to the heap
-func (h *Heap) Push(a int) {
+func (h *Heap) Push(a Element) {
 	h.arr = append(h.arr, a)
 	h.heapifyBU(len(h.arr) - 1)
 }
 
 // Remove the root element from the heap, and rebalance
-func (h *Heap) Pop() (int, error) {
+func (h *Heap) Pop() (Element, error) {
 	if len(h.arr) == 0 {
-		return 0, ErrHeapEmpty
+		return nil, ErrHeapEmpty
 	}
 
 	res := h.arr[0]
@@ -82,9 +86,9 @@ func (h *Heap) Pop() (int, error) {
 }
 
 // Peek looks at the root value of the heap, but doesn't remove it
-func (h *Heap) Peek() (int, error) {
+func (h *Heap) Peek() (Element, error) {
 	if len(h.arr) == 0 {
-		return 0, ErrHeapEmpty
+		return nil, ErrHeapEmpty
 	}
 
 	return h.arr[0], nil
@@ -131,17 +135,17 @@ func (h *Heap) heapifyTD(i int) {
 	target := nodeIndex
 	switch h.mode {
 	case MaxHeap:
-		if leftIndex < len(h.arr) && h.arr[leftIndex] > h.arr[target] {
+		if leftIndex < len(h.arr) && h.arr[leftIndex].Value() > h.arr[target].Value() {
 			target = leftIndex
 		}
-		if rightIndex < len(h.arr) && h.arr[rightIndex] > h.arr[target] {
+		if rightIndex < len(h.arr) && h.arr[rightIndex].Value() > h.arr[target].Value() {
 			target = rightIndex
 		}
 	case MinHeap:
-		if leftIndex < len(h.arr) && h.arr[leftIndex] < h.arr[target] {
+		if leftIndex < len(h.arr) && h.arr[leftIndex].Value() < h.arr[target].Value() {
 			target = leftIndex
 		}
-		if rightIndex < len(h.arr) && h.arr[rightIndex] < h.arr[target] {
+		if rightIndex < len(h.arr) && h.arr[rightIndex].Value() < h.arr[target].Value() {
 			target = rightIndex
 		}
 	}
@@ -163,12 +167,12 @@ func (h *Heap) heapifyBU(i int) {
 
 	switch h.mode {
 	case MaxHeap:
-		if nodeIndex != parentIndex && h.arr[parentIndex] < h.arr[nodeIndex] {
+		if nodeIndex != parentIndex && h.arr[parentIndex].Value() < h.arr[nodeIndex].Value() {
 			h.swap(parentIndex, nodeIndex)
 			h.heapifyBU(parentIndex)
 		}
 	case MinHeap:
-		if nodeIndex != parentIndex && h.arr[parentIndex] > h.arr[nodeIndex] {
+		if nodeIndex != parentIndex && h.arr[parentIndex].Value() > h.arr[nodeIndex].Value() {
 			h.swap(parentIndex, nodeIndex)
 			h.heapifyBU(parentIndex)
 		}
@@ -188,20 +192,20 @@ func (h *Heap) heapifyTD_Old(i int) {
 
 	switch h.mode {
 	case MaxHeap:
-		if leftIndex < len(h.arr) && h.arr[leftIndex] > h.arr[nodeIndex] {
+		if leftIndex < len(h.arr) && h.arr[leftIndex].Value() > h.arr[nodeIndex].Value() {
 			h.swap(leftIndex, nodeIndex)
 			h.heapifyTD_Old(leftIndex)
 		}
-		if rightIndex < len(h.arr) && h.arr[rightIndex] > h.arr[nodeIndex] {
+		if rightIndex < len(h.arr) && h.arr[rightIndex].Value() > h.arr[nodeIndex].Value() {
 			h.swap(rightIndex, nodeIndex)
 			h.heapifyTD_Old(rightIndex)
 		}
 	case MinHeap:
-		if leftIndex < len(h.arr) && h.arr[leftIndex] < h.arr[nodeIndex] {
+		if leftIndex < len(h.arr) && h.arr[leftIndex].Value() < h.arr[nodeIndex].Value() {
 			h.swap(leftIndex, nodeIndex)
 			h.heapifyTD_Old(leftIndex)
 		}
-		if rightIndex < len(h.arr) && h.arr[rightIndex] < h.arr[nodeIndex] {
+		if rightIndex < len(h.arr) && h.arr[rightIndex].Value() < h.arr[nodeIndex].Value() {
 			h.swap(rightIndex, nodeIndex)
 			h.heapifyTD_Old(rightIndex)
 		}

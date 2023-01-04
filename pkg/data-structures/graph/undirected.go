@@ -16,11 +16,11 @@ func NewUndirected() *UndirectedGraph {
 
 func (g *UndirectedGraph) AddNode(n *Node) error {
 	if n == nil {
-		return errors.New("node is nil")
+		return ErrInvalidInput
 	}
 
 	if _, ok := g.nodes[n]; ok {
-		return errors.New("node already added")
+		return ErrNodeAlreadyAdded
 	}
 
 	g.nodes[n] = true
@@ -39,6 +39,18 @@ func (g *UndirectedGraph) AddEdge(n1, n2 *Node, weight int) error {
 
 	if _, ok := g.edges[n2]; !ok {
 		g.edges[n2] = make([]*edge, 0)
+	}
+
+	for _, edge := range g.edges[n1] {
+		if edge.N2 == n2 {
+			return ErrEdgeAlreadyAdded
+		}
+	}
+
+	for _, edge := range g.edges[n2] {
+		if edge.N2 == n1 {
+			return ErrEdgeAlreadyAdded
+		}
 	}
 
 	g.edges[n1] = append(g.edges[n1], &edge{N1: n1, N2: n2, Weight: weight})

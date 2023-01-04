@@ -1,14 +1,12 @@
 package graph
 
-import "errors"
-
 type DirectedGraph struct {
 	nodes map[*Node]bool // Lookup map for nodes
 	edges map[*Node][]*edge
 }
 
-func NewDirected() *UndirectedGraph {
-	return &UndirectedGraph{
+func NewDirected() *DirectedGraph {
+	return &DirectedGraph{
 		nodes: make(map[*Node]bool),
 		edges: make(map[*Node][]*edge),
 	}
@@ -16,11 +14,11 @@ func NewDirected() *UndirectedGraph {
 
 func (g *DirectedGraph) AddNode(n *Node) error {
 	if n == nil {
-		return errors.New("node is nil")
+		return ErrInvalidInput
 	}
 
 	if _, ok := g.nodes[n]; ok {
-		return errors.New("node already added")
+		return ErrNodeAlreadyAdded
 	}
 
 	g.nodes[n] = true
@@ -30,7 +28,7 @@ func (g *DirectedGraph) AddNode(n *Node) error {
 // AddEdge on directed graphs assumes n1 -> n2 as a single edge
 func (g *DirectedGraph) AddEdge(n1, n2 *Node, weight int) error {
 	if !g.nodes[n1] || !g.nodes[n2] {
-		return errors.New("the provided node(s) are not added to the graph")
+		return ErrNodeNotInGraph
 	}
 
 	if _, ok := g.edges[n1]; !ok {

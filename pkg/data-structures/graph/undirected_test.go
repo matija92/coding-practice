@@ -12,7 +12,7 @@ func TestAddingEdges(t *testing.T) {
 	nodeA := NewNode("A", 0)
 	nodeB := NewNode("B", 0)
 
-	// Adding edge before any nodes
+	// Adding edge before the nodes are added results in an error
 	err := graph.AddEdge(nodeA, nodeB, 10)
 	assert.NotNil(t, err)
 
@@ -27,6 +27,10 @@ func TestAddingEdges(t *testing.T) {
 
 	err = graph.AddEdge(nodeA, nodeB, 10)
 	assert.Nil(t, err)
+
+	// Adding existing edge results in an error
+	err = graph.AddEdge(nodeA, nodeB, 10)
+	assert.NotNil(t, err)
 }
 
 func TestSimpleGraph(t *testing.T) {
