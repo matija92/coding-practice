@@ -63,6 +63,16 @@ func (g *UndirectedGraph) Edges(n *Node) []*edge {
 	return g.edges[n]
 }
 
+func (g *UndirectedGraph) Nodes() []*Node {
+	nodes := make([]*Node, len(g.nodes))
+	i := 0
+	for n := range g.nodes {
+		nodes[i] = n
+		i++
+	}
+	return nodes
+}
+
 func (g *UndirectedGraph) NodeExists(n *Node) bool {
 	return g.nodes[n]
 }

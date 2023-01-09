@@ -42,6 +42,17 @@ func (g *DirectedGraph) AddEdge(n1, n2 *Node, weight int) error {
 
 func (g *DirectedGraph) Edges(n *Node) []*edge {
 	return g.edges[n]
+
+}
+
+func (g *DirectedGraph) Nodes() []*Node {
+	nodes := make([]*Node, len(g.nodes))
+	i := 0
+	for n := range g.nodes {
+		nodes[i] = n
+		i++
+	}
+	return nodes
 }
 
 func (g *DirectedGraph) NodeExists(n *Node) bool {

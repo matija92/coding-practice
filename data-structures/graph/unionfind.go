@@ -49,6 +49,15 @@ func (g *UnionFindGraph) Edges(n *Node) []*edge {
 	return g.edges[n]
 }
 
+func (g *UnionFindGraph) Nodes() []*Node {
+	nodes := make([]*Node, len(g.root))
+	i := 0
+	for n := range g.root {
+		nodes[i] = n
+		i++
+	}
+	return nodes
+}
 func (g *UnionFindGraph) NodeExists(n *Node) bool {
 	return g.root[n] != nil
 }

@@ -1,12 +1,11 @@
-package main
+package islands
 
 import (
 	"coding-practice/data-structures/graph"
-	"fmt"
-)
+	"testing"
 
-// Problem:
-// Given a graph, count the number of islands
+	"github.com/stretchr/testify/assert"
+)
 
 // Test graph
 
@@ -17,7 +16,7 @@ import (
 //		   - G
 //	E - F
 //		   - H
-func NoOfIslands() {
+func TestIslands(t *testing.T) {
 	g := graph.NewUnionFind()
 
 	nA, nB, nC, nD, nE, nF, nG, nH := graph.NewNode("A", 0), graph.NewNode("B", 0), graph.NewNode("C", 0), graph.NewNode("D", 0), graph.NewNode("E", 0), graph.NewNode("F", 0), graph.NewNode("G", 0), graph.NewNode("H", 0)
@@ -36,15 +35,5 @@ func NoOfIslands() {
 	g.AddEdge(nF, nG, 0)
 	g.AddEdge(nF, nH, 0)
 
-	islandsMap := make(map[*graph.Node]interface{})
-
-	for _, node := range []*graph.Node{nA, nB, nC, nD, nE, nF, nG, nH} {
-		islandsMap[g.Find(node)] = true
-	}
-
-	fmt.Println(len(islandsMap))
-}
-
-func main() {
-	NoOfIslands()
+	assert.Equal(t, 3, NoOfIslands(g))
 }

@@ -4,6 +4,7 @@ type Graph interface {
 	AddNode(n *Node) error
 	AddEdge(n1, n2 *Node, weight int) error
 	Edges(n *Node) []*edge
+	Nodes() []*Node
 	NodeExists(n *Node) bool
 }
 
