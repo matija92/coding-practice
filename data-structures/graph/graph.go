@@ -3,7 +3,7 @@ package graph
 type Graph interface {
 	AddNode(n *Node) error
 	AddEdge(n1, n2 *Node, weight int) error
-	Edges(n *Node) []*edge
+	Edges(n *Node) []*Edge
 	Nodes() []*Node
 	NodeExists(n *Node) bool
 }
@@ -45,8 +45,12 @@ func (n *Node) SetValue(x int) {
 	n.val = x
 }
 
-type edge struct {
+type Edge struct {
 	N1     *Node // start node
 	N2     *Node // end node
 	Weight int
+}
+
+func (e *Edge) Value() int {
+	return e.Weight
 }

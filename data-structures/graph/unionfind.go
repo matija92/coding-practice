@@ -4,13 +4,13 @@ import "errors"
 
 type UnionFindGraph struct {
 	root  map[*Node]*Node
-	edges map[*Node][]*edge // For reference
+	edges map[*Node][]*Edge // For reference
 }
 
 func NewUnionFind() *UnionFindGraph {
 	return &UnionFindGraph{
 		root:  make(map[*Node]*Node),
-		edges: make(map[*Node][]*edge),
+		edges: make(map[*Node][]*Edge),
 	}
 }
 
@@ -34,9 +34,9 @@ func (g *UnionFindGraph) AddEdge(n1, n2 *Node, weight int) error {
 
 	// Record edge
 	if _, ok := g.edges[n1]; !ok {
-		g.edges[n1] = make([]*edge, 0)
+		g.edges[n1] = make([]*Edge, 0)
 	}
-	g.edges[n1] = append(g.edges[n1], &edge{
+	g.edges[n1] = append(g.edges[n1], &Edge{
 		N1:     n1,
 		N2:     n2,
 		Weight: weight,
@@ -45,7 +45,7 @@ func (g *UnionFindGraph) AddEdge(n1, n2 *Node, weight int) error {
 	return g.Union(n1, n2)
 }
 
-func (g *UnionFindGraph) Edges(n *Node) []*edge {
+func (g *UnionFindGraph) Edges(n *Node) []*Edge {
 	return g.edges[n]
 }
 
@@ -84,4 +84,9 @@ func (g *UnionFindGraph) Union(n1, n2 *Node) error {
 		}
 	}
 	return nil
+}
+
+// Connected checks if 2 nodes have the same root
+func (g *UnionFindGraph) Connected(n1, n2 *Node) bool {
+	return g.Find(n1) == g.Find(n2)
 }

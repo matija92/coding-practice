@@ -4,13 +4,13 @@ import "errors"
 
 type UndirectedGraph struct {
 	nodes map[*Node]bool // Lookup map for nodes
-	edges map[*Node][]*edge
+	edges map[*Node][]*Edge
 }
 
 func NewUndirected() *UndirectedGraph {
 	return &UndirectedGraph{
 		nodes: make(map[*Node]bool),
-		edges: make(map[*Node][]*edge),
+		edges: make(map[*Node][]*Edge),
 	}
 }
 
@@ -34,11 +34,11 @@ func (g *UndirectedGraph) AddEdge(n1, n2 *Node, weight int) error {
 	}
 
 	if _, ok := g.edges[n1]; !ok {
-		g.edges[n1] = make([]*edge, 0)
+		g.edges[n1] = make([]*Edge, 0)
 	}
 
 	if _, ok := g.edges[n2]; !ok {
-		g.edges[n2] = make([]*edge, 0)
+		g.edges[n2] = make([]*Edge, 0)
 	}
 
 	for _, edge := range g.edges[n1] {
@@ -53,13 +53,13 @@ func (g *UndirectedGraph) AddEdge(n1, n2 *Node, weight int) error {
 		}
 	}
 
-	g.edges[n1] = append(g.edges[n1], &edge{N1: n1, N2: n2, Weight: weight})
-	g.edges[n2] = append(g.edges[n2], &edge{N2: n1, N1: n2, Weight: weight})
+	g.edges[n1] = append(g.edges[n1], &Edge{N1: n1, N2: n2, Weight: weight})
+	g.edges[n2] = append(g.edges[n2], &Edge{N2: n1, N1: n2, Weight: weight})
 
 	return nil
 }
 
-func (g *UndirectedGraph) Edges(n *Node) []*edge {
+func (g *UndirectedGraph) Edges(n *Node) []*Edge {
 	return g.edges[n]
 }
 

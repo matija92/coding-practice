@@ -2,13 +2,13 @@ package graph
 
 type DirectedGraph struct {
 	nodes map[*Node]bool // Lookup map for nodes
-	edges map[*Node][]*edge
+	edges map[*Node][]*Edge
 }
 
 func NewDirected() *DirectedGraph {
 	return &DirectedGraph{
 		nodes: make(map[*Node]bool),
-		edges: make(map[*Node][]*edge),
+		edges: make(map[*Node][]*Edge),
 	}
 }
 
@@ -32,15 +32,15 @@ func (g *DirectedGraph) AddEdge(n1, n2 *Node, weight int) error {
 	}
 
 	if _, ok := g.edges[n1]; !ok {
-		g.edges[n1] = make([]*edge, 0)
+		g.edges[n1] = make([]*Edge, 0)
 	}
 
-	g.edges[n1] = append(g.edges[n1], &edge{N1: n1, N2: n2, Weight: weight})
+	g.edges[n1] = append(g.edges[n1], &Edge{N1: n1, N2: n2, Weight: weight})
 
 	return nil
 }
 
-func (g *DirectedGraph) Edges(n *Node) []*edge {
+func (g *DirectedGraph) Edges(n *Node) []*Edge {
 	return g.edges[n]
 
 }
